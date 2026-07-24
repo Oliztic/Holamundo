@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"></link>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: oklch(54% 0.20 264); text-decoration: none; }
+  a:hover { color: oklch(38% 0.16 264); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+</style>
+</helmet>
+
+<div style="background:oklch(99% 0.002 260);color:oklch(21% 0.03 265);overflow-x:hidden">
+
+  <header style="position:sticky;top:0;z-index:50;display:flex;alignItems:center;justifyContent:space-between;gap:24px;padding:16px 48px;background:oklch(99% 0.002 260 / 0.85);backdropFilter:blur(12px);borderBottom:1px solid oklch(90% 0.01 260)">
+    <div style="display:flex;alignItems:center;gap:10px;flex:0 0 auto">
+      <div style="width:32px;height:32px;borderRadius:9px;background:conic-gradient(from 210deg, oklch(56% 0.18 300), oklch(54% 0.20 264), oklch(60% 0.15 170), oklch(56% 0.18 300))"></div>
+      <span style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:19px;letterSpacing:-0.02em;color:oklch(21% 0.03 265)">OLIZTIC</span>
+    </div>
+    <nav style="display:flex;alignItems:center;gap:28px;flexWrap:wrap;justifyContent:center;flex:1 1 auto">
+      <a href="#passly-gate" style="fontSize:14px;fontWeight:600;color:oklch(46% 0.02 265)" style-hover="color:oklch(54% 0.20 264)">Passly GATE</a>
+      <a href="#passly-vendor" style="fontSize:14px;fontWeight:600;color:oklch(46% 0.02 265)" style-hover="color:oklch(54% 0.20 264)">Passly VENDOR</a>
+      <a href="#passly-work" style="fontSize:14px;fontWeight:600;color:oklch(46% 0.02 265)" style-hover="color:oklch(54% 0.20 264)">Passly WORK</a>
+      <a href="#como-funciona" style="fontSize:14px;fontWeight:600;color:oklch(46% 0.02 265)" style-hover="color:oklch(54% 0.20 264)">Cómo funciona</a>
+      <a href="#precios" style="fontSize:14px;fontWeight:600;color:oklch(46% 0.02 265)" style-hover="color:oklch(54% 0.20 264)">Precios</a>
+      <a href="#api" style="fontSize:14px;fontWeight:600;color:oklch(46% 0.02 265)" style-hover="color:oklch(54% 0.20 264)">API Docs</a>
+    </nav>
+    <a href="#cta-final" style="flex:0 0 auto;padding:11px 22px;borderRadius:10px;background:oklch(54% 0.20 264);color:white;fontSize:14px;fontWeight:700" style-hover="background:oklch(38% 0.16 264)">Solicitar demo</a>
+  </header>
+
+  <section style="position:relative;overflow:hidden;padding:96px 48px 80px;background:radial-gradient(1100px 600px at 10% -10%, oklch(93% 0.035 264 / 0.65), transparent 60%), radial-gradient(900px 500px at 105% 15%, oklch(94% 0.05 170 / 0.55), transparent 60%)">
+    <div style="max-width:1240px;margin:0 auto;display:flex;gap:64px;alignItems:center;flexWrap:wrap">
+      <div style="flex:1 1 480px;minWidth:320px">
+        <div style="display:inline-flex;alignItems:center;gap:9px;padding:8px 16px;borderRadius:999px;background:oklch(96% 0.02 264);border:1px solid oklch(88% 0.03 264);color:oklch(42% 0.16 264);fontSize:13px;fontWeight:700;marginBottom:28px">
+          <span style="width:7px;height:7px;borderRadius:50%;background:oklch(60% 0.15 170)"></span>
+          Passly · Ecosistema modular B2B
+        </div>
+        <h1 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:52px;lineHeight:1.08;letterSpacing:-0.03em;margin:0 0 24px;color:oklch(19% 0.03 265);textWrap:pretty">
+          Cumplimiento, proveedores y talento —
+          <span style="background:linear-gradient(90deg, oklch(54% 0.20 264), oklch(56% 0.18 300) 55%, oklch(60% 0.15 170));WebkitBackgroundClip:text;backgroundClip:text;color:transparent">en un solo lugar.</span>
+        </h1>
+        <p style="fontSize:18px;lineHeight:1.6;color:oklch(46% 0.02 265);maxWidth:520px;margin:0 0 36px">
+          OLIZTIC conecta control de acceso, gestión de contratistas y RRHH en un ecosistema modular que elimina las fricciones operativas de tu empresa.
+        </p>
+        <div style="display:flex;gap:14px;flexWrap:wrap;marginBottom:48px">
+          <a href="#cta-final" style="padding:15px 28px;borderRadius:11px;background:oklch(54% 0.20 264);color:white;fontWeight:700;fontSize:15px;boxShadow:0 8px 24px oklch(54% 0.20 264 / 0.3)" style-hover="background:oklch(38% 0.16 264)">Solicitar demo</a>
+          <a href="#api" style="padding:15px 28px;borderRadius:11px;background:white;color:oklch(21% 0.03 265);fontWeight:700;fontSize:15px;border:1px solid oklch(88% 0.01 260)" style-hover="border-color:oklch(54% 0.20 264);color:oklch(54% 0.20 264)">Ver documentación API</a>
+        </div>
+        <div style="display:flex;gap:40px;flexWrap:wrap">
+          <div><div style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:26px;color:oklch(21% 0.03 265)">3</div><div style="fontSize:13px;color:oklch(52% 0.02 265)">Módulos integrados</div></div>
+          <div><div style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:26px;color:oklch(21% 0.03 265)">98%</div><div style="fontSize:13px;color:oklch(52% 0.02 265)">Cumplimiento legal promedio</div></div>
+          <div><div style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:26px;color:oklch(21% 0.03 265)">API-first</div><div style="fontSize:13px;color:oklch(52% 0.02 265)">Integración universal</div></div>
+        </div>
+      </div>
+
+      <div style="flex:1 1 460px;minWidth:320px">
+        <div style="background:white;borderRadius:18px;border:1px solid oklch(90% 0.01 260);boxShadow:0 30px 60px -20px oklch(21% 0.03 265 / 0.2);overflow:hidden">
+          <div style="display:flex;alignItems:center;gap:8px;padding:14px 18px;borderBottom:1px solid oklch(92% 0.008 260)">
+            <span style="width:10px;height:10px;borderRadius:50%;background:oklch(70% 0.16 25)"></span>
+            <span style="width:10px;height:10px;borderRadius:50%;background:oklch(78% 0.14 85)"></span>
+            <span style="width:10px;height:10px;borderRadius:50%;background:oklch(72% 0.15 150)"></span>
+            <span style="marginLeft:auto;fontSize:12px;color:oklch(55% 0.02 265);fontWeight:600">Dashboard OLIZTIC</span>
+          </div>
+          <div style="padding:24px;display:grid;gridTemplateColumns:1fr 1fr;gap:16px">
+            <div style="padding:18px;borderRadius:14px;background:oklch(96% 0.02 264);border:1px solid oklch(90% 0.03 264)">
+              <div style="fontSize:12px;fontWeight:600;color:oklch(42% 0.14 264);marginBottom:8px">Passly GATE · Compliance</div>
+              <div style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:26px;color:oklch(21% 0.03 265);marginBottom:10px">98%</div>
+              <div style="height:6px;borderRadius:99px;background:oklch(90% 0.02 264)"><div style="width:92%;height:100%;borderRadius:99px;background:oklch(54% 0.20 264)"></div></div>
+            </div>
+            <div style="padding:18px;borderRadius:14px;background:oklch(95% 0.03 300);border:1px solid oklch(89% 0.04 300)">
+              <div style="fontSize:12px;fontWeight:600;color:oklch(42% 0.15 300);marginBottom:8px">Passly VENDOR · Hub</div>
+              <div style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:26px;color:oklch(21% 0.03 265);marginBottom:10px">1.4k</div>
+              <div style="height:6px;borderRadius:99px;background:oklch(89% 0.03 300)"><div style="width:74%;height:100%;borderRadius:99px;background:oklch(56% 0.18 300)"></div></div>
+            </div>
+            <div style="padding:18px;borderRadius:14px;background:oklch(94% 0.04 170);border:1px solid oklch(88% 0.05 170)">
+              <div style="fontSize:12px;fontWeight:600;color:oklch(38% 0.10 170);marginBottom:8px">Passly WORK · HR Sync</div>
+              <div style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:26px;color:oklch(21% 0.03 265);marginBottom:10px">312</div>
+              <div style="height:6px;borderRadius:99px;background:oklch(88% 0.05 170)"><div style="width:60%;height:100%;borderRadius:99px;background:oklch(60% 0.15 170)"></div></div>
+            </div>
+            <div style="padding:18px;borderRadius:14px;background:oklch(97% 0.004 260);border:1px solid oklch(91% 0.008 260)">
+              <div style="fontSize:12px;fontWeight:600;color:oklch(46% 0.02 265);marginBottom:8px">Contratos activos</div>
+              <div style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:26px;color:oklch(21% 0.03 265);marginBottom:10px">87</div>
+              <div style="height:6px;borderRadius:99px;background:oklch(91% 0.008 260)"><div style="width:48%;height:100%;borderRadius:99px;background:oklch(38% 0.02 265)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ showLogos }}" hint-placeholder-val="{{ true }}">
+  <section style="padding:44px 48px;borderTop:1px solid oklch(90% 0.01 260);borderBottom:1px solid oklch(90% 0.01 260);background:oklch(96.5% 0.006 250)">
+    <p style="textAlign:center;fontSize:12px;fontWeight:700;letterSpacing:0.08em;textTransform:uppercase;color:oklch(52% 0.02 265);margin:0 0 26px">Empresas que confían su cumplimiento a OLIZTIC</p>
+    <div style="display:flex;justifyContent:center;gap:20px;flexWrap:wrap;maxWidth:1000px;margin:0 auto">
+      <div style="fontFamily:monospace;fontSize:12px;letterSpacing:0.04em;color:oklch(50% 0.02 265);padding:12px 22px;border:1px dashed oklch(80% 0.01 260);borderRadius:8px">LOGO CLIENTE 01</div>
+      <div style="fontFamily:monospace;fontSize:12px;letterSpacing:0.04em;color:oklch(50% 0.02 265);padding:12px 22px;border:1px dashed oklch(80% 0.01 260);borderRadius:8px">LOGO CLIENTE 02</div>
+      <div style="fontFamily:monospace;fontSize:12px;letterSpacing:0.04em;color:oklch(50% 0.02 265);padding:12px 22px;border:1px dashed oklch(80% 0.01 260);borderRadius:8px">LOGO CLIENTE 03</div>
+      <div style="fontFamily:monospace;fontSize:12px;letterSpacing:0.04em;color:oklch(50% 0.02 265);padding:12px 22px;border:1px dashed oklch(80% 0.01 260);borderRadius:8px">LOGO CLIENTE 04</div>
+      <div style="fontFamily:monospace;fontSize:12px;letterSpacing:0.04em;color:oklch(50% 0.02 265);padding:12px 22px;border:1px dashed oklch(80% 0.01 260);borderRadius:8px">LOGO CLIENTE 05</div>
+      <div style="fontFamily:monospace;fontSize:12px;letterSpacing:0.04em;color:oklch(50% 0.02 265);padding:12px 22px;border:1px dashed oklch(80% 0.01 260);borderRadius:8px">LOGO CLIENTE 06</div>
+    </div>
+  </section>
+  </sc-if>
+
+  <section style="padding:96px 48px;max-width:1240px;margin:0 auto">
+    <div style="textAlign:center;maxWidth:640px;margin:0 auto 56px">
+      <div style="fontSize:13px;fontWeight:700;letterSpacing:0.06em;textTransform:uppercase;color:oklch(54% 0.20 264);marginBottom:12px">Producto</div>
+      <h2 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:36px;letterSpacing:-0.02em;margin:0 0 16px;color:oklch(19% 0.03 265)">Un ecosistema, tres módulos</h2>
+      <p style="fontSize:16px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0">Cada módulo resuelve un frente distinto de tu operación B2B — y comparten datos entre sí para que nada se te escape.</p>
+    </div>
+    <div style="display:grid;gridTemplateColumns:repeat(auto-fit,minmax(300px,1fr));gap:28px">
+      <div id="passly-gate" style="padding:36px;borderRadius:20px;border:1px solid oklch(90% 0.01 260);background:white;transition:box-shadow 0.2s" style-hover="box-shadow:0 20px 40px -16px oklch(21% 0.03 265 / 0.18)">
+        <div style="width:48px;height:48px;borderRadius:12px;background:oklch(95% 0.03 264);color:oklch(42% 0.16 264);display:flex;alignItems:center;justifyContent:center;fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:19px;marginBottom:20px">G</div>
+        <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:21px;margin:0 0 10px;color:oklch(19% 0.03 265)">Passly GATE</h3>
+        <p style="fontSize:15px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0 0 20px">Control de acceso y compliance en tiempo real para instalaciones físicas y digitales.</p>
+        <div style="display:flex;flexDirection:column;gap:10px;marginBottom:22px">
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Verificación de identidad instantánea</div>
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Registro de auditoría inmutable</div>
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Alertas de incumplimiento en vivo</div>
+        </div>
+        <a href="#cta-final" style="fontSize:14px;fontWeight:700;color:oklch(54% 0.20 264)">Explorar Passly GATE →</a>
+      </div>
+
+      <div id="passly-vendor" style="padding:36px;borderRadius:20px;border:1px solid oklch(90% 0.01 260);background:white;transition:box-shadow 0.2s" style-hover="box-shadow:0 20px 40px -16px oklch(21% 0.03 265 / 0.18)">
+        <div style="width:48px;height:48px;borderRadius:12px;background:oklch(95% 0.03 300);color:oklch(42% 0.15 300);display:flex;alignItems:center;justifyContent:center;fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:19px;marginBottom:20px">V</div>
+        <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:21px;margin:0 0 10px;color:oklch(19% 0.03 265)">Passly VENDOR</h3>
+        <p style="fontSize:15px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0 0 20px">Onboarding, evaluación y monitoreo continuo de proveedores y contratistas.</p>
+        <div style="display:flex;flexDirection:column;gap:10px;marginBottom:22px">
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(56% 0.18 300);fontWeight:700">✓</span>Validación documental automática</div>
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(56% 0.18 300);fontWeight:700">✓</span>Scoring de riesgo por proveedor</div>
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(56% 0.18 300);fontWeight:700">✓</span>Portal de autogestión para terceros</div>
+        </div>
+        <a href="#cta-final" style="fontSize:14px;fontWeight:700;color:oklch(56% 0.18 300)">Explorar Passly VENDOR →</a>
+      </div>
+
+      <div id="passly-work" style="padding:36px;borderRadius:20px;border:1px solid oklch(90% 0.01 260);background:white;transition:box-shadow 0.2s" style-hover="box-shadow:0 20px 40px -16px oklch(21% 0.03 265 / 0.18)">
+        <div style="width:48px;height:48px;borderRadius:12px;background:oklch(94% 0.04 170);color:oklch(36% 0.10 170);display:flex;alignItems:center;justifyContent:center;fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:19px;marginBottom:20px">W</div>
+        <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:21px;margin:0 0 10px;color:oklch(19% 0.03 265)">Passly WORK</h3>
+        <p style="fontSize:15px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0 0 20px">Gestión de talento y RRHH sincronizada con nómina, turnos y certificaciones.</p>
+        <div style="display:flex;flexDirection:column;gap:10px;marginBottom:22px">
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(60% 0.15 170);fontWeight:700">✓</span>Sincronización HRIS en tiempo real</div>
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(60% 0.15 170);fontWeight:700">✓</span>Certificaciones y vencimientos automatizados</div>
+          <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(60% 0.15 170);fontWeight:700">✓</span>Flujos de aprobación configurables</div>
+        </div>
+        <a href="#cta-final" style="fontSize:14px;fontWeight:700;color:oklch(60% 0.15 170)">Explorar Passly WORK →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" style="padding:96px 48px;background:oklch(96.5% 0.006 250)">
+    <div style="maxWidth:1240px;margin:0 auto">
+      <div style="textAlign:center;maxWidth:640px;margin:0 auto 64px">
+        <div style="fontSize:13px;fontWeight:700;letterSpacing:0.06em;textTransform:uppercase;color:oklch(54% 0.20 264);marginBottom:12px">Proceso</div>
+        <h2 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:36px;letterSpacing:-0.02em;margin:0 0 16px;color:oklch(19% 0.03 265)">De la integración al cumplimiento, en cuatro pasos</h2>
+      </div>
+      <div style="position:relative;display:flex;gap:24px;flexWrap:wrap">
+        <div style="position:absolute;top:20px;left:5%;right:5%;height:2px;background:oklch(87% 0.01 260)"></div>
+        <div style="position:relative;flex:1 1 220px;minWidth:200px;textAlign:center">
+          <div style="width:40px;height:40px;borderRadius:50%;background:oklch(96.5% 0.006 250);border:2px solid oklch(54% 0.20 264);color:oklch(54% 0.20 264);display:flex;alignItems:center;justifyContent:center;fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:16px;margin:0 auto 18px">1</div>
+          <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:700;fontSize:17px;margin:0 0 8px;color:oklch(19% 0.03 265)">Conecta</h3>
+          <p style="fontSize:14px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0;padding:0 8px">Integra tus sistemas actuales vía API o SDK en minutos.</p>
+        </div>
+        <div style="position:relative;flex:1 1 220px;minWidth:200px;textAlign:center">
+          <div style="width:40px;height:40px;borderRadius:50%;background:oklch(96.5% 0.006 250);border:2px solid oklch(54% 0.20 264);color:oklch(54% 0.20 264);display:flex;alignItems:center;justifyContent:center;fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:16px;margin:0 auto 18px">2</div>
+          <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:700;fontSize:17px;margin:0 0 8px;color:oklch(19% 0.03 265)">Verifica</h3>
+          <p style="fontSize:14px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0;padding:0 8px">OLIZTIC valida identidades, documentos y datos en tiempo real.</p>
+        </div>
+        <div style="position:relative;flex:1 1 220px;minWidth:200px;textAlign:center">
+          <div style="width:40px;height:40px;borderRadius:50%;background:oklch(96.5% 0.006 250);border:2px solid oklch(54% 0.20 264);color:oklch(54% 0.20 264);display:flex;alignItems:center;justifyContent:center;fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:16px;margin:0 auto 18px">3</div>
+          <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:700;fontSize:17px;margin:0 0 8px;color:oklch(19% 0.03 265)">Automatiza</h3>
+          <p style="fontSize:14px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0;padding:0 8px">Flujos de aprobación y alertas corren solos, sin fricciones manuales.</p>
+        </div>
+        <div style="position:relative;flex:1 1 220px;minWidth:200px;textAlign:center">
+          <div style="width:40px;height:40px;borderRadius:50%;background:oklch(96.5% 0.006 250);border:2px solid oklch(54% 0.20 264);color:oklch(54% 0.20 264);display:flex;alignItems:center;justifyContent:center;fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:16px;margin:0 auto 18px">4</div>
+          <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:700;fontSize:17px;margin:0 0 8px;color:oklch(19% 0.03 265)">Reporta</h3>
+          <p style="fontSize:14px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0;padding:0 8px">Dashboards y auditorías listas para tus equipos legal y de compliance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="api" style="padding:96px 48px;max-width:1240px;margin:0 auto">
+    <div style="display:flex;gap:64px;alignItems:center;flexWrap:wrap">
+      <div style="flex:1 1 440px;minWidth:320px">
+        <div style="fontSize:13px;fontWeight:700;letterSpacing:0.06em;textTransform:uppercase;color:oklch(54% 0.20 264);marginBottom:12px">API Docs</div>
+        <h2 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:34px;letterSpacing:-0.02em;margin:0 0 18px;color:oklch(19% 0.03 265)">Una API, todo tu ecosistema de compliance.</h2>
+        <p style="fontSize:16px;lineHeight:1.65;color:oklch(46% 0.02 265);margin:0 0 28px">Conecta Passly GATE, VENDOR y WORK con un único set de credenciales. Documentación clara, SDKs listos y soporte técnico directo.</p>
+        <div style="display:flex;flexDirection:column;gap:16px;marginBottom:32px">
+          <div style="display:flex;gap:12px;alignItems:flex-start"><div style="width:6px;height:6px;borderRadius:50%;background:oklch(54% 0.20 264);marginTop:8px;flexShrink:0"></div><div><strong style="fontSize:15px;color:oklch(21% 0.03 265)">Implementación rápida</strong><div style="fontSize:14px;color:oklch(46% 0.02 265)">Endpoints listos en minutos, no semanas.</div></div></div>
+          <div style="display:flex;gap:12px;alignItems:flex-start"><div style="width:6px;height:6px;borderRadius:50%;background:oklch(54% 0.20 264);marginTop:8px;flexShrink:0"></div><div><strong style="fontSize:15px;color:oklch(21% 0.03 265)">SDKs flexibles</strong><div style="fontSize:14px;color:oklch(46% 0.02 265)">Node.js, Python, PHP y más.</div></div></div>
+          <div style="display:flex;gap:12px;alignItems:flex-start"><div style="width:6px;height:6px;borderRadius:50%;background:oklch(54% 0.20 264);marginTop:8px;flexShrink:0"></div><div><strong style="fontSize:15px;color:oklch(21% 0.03 265)">Seguro y auditable</strong><div style="fontSize:14px;color:oklch(46% 0.02 265)">Cifrado end-to-end y logs completos.</div></div></div>
+        </div>
+        <a href="#" style="display:inline-block;padding:14px 26px;borderRadius:11px;background:oklch(19% 0.03 265);color:white;fontWeight:700;fontSize:15px" style-hover="background:oklch(30% 0.03 265)">Ver documentación completa</a>
+      </div>
+      <div style="flex:1 1 440px;minWidth:320px">
+        <div style="background:oklch(17% 0.02 265);borderRadius:16px;overflow:hidden;boxShadow:0 30px 60px -20px oklch(21% 0.03 265 / 0.35)">
+          <div style="display:flex;alignItems:center;gap:8px;padding:14px 18px;borderBottom:1px solid oklch(28% 0.02 265)">
+            <span style="width:10px;height:10px;borderRadius:50%;background:oklch(70% 0.16 25)"></span>
+            <span style="width:10px;height:10px;borderRadius:50%;background:oklch(78% 0.14 85)"></span>
+            <span style="width:10px;height:10px;borderRadius:50%;background:oklch(72% 0.15 150)"></span>
+            <span style="marginLeft:auto;fontSize:12px;color:oklch(65% 0.01 265)">verify.js</span>
+          </div>
+          <div style="margin:0;padding:24px;fontFamily:monospace;fontSize:13px;lineHeight:1.9;color:oklch(85% 0.01 265);overflow:auto">
+            <div><span style="color:oklch(70% 0.12 300)">POST</span> <span style="color:oklch(85% 0.01 265)">https://api.oliztic.com/v1/gate/verify</span></div>
+            <div>&nbsp;</div>
+            <div><span style="color:oklch(65% 0.01 265)">{'{'}</span></div>
+            <div>&nbsp;&nbsp;<span style="color:oklch(72% 0.15 170)">"vendor_id"</span>: <span style="color:oklch(80% 0.10 85)">"vnd_8841"</span>,</div>
+            <div>&nbsp;&nbsp;<span style="color:oklch(72% 0.15 170)">"document"</span>: <span style="color:oklch(80% 0.10 85)">"CC-1029384756"</span>,</div>
+            <div>&nbsp;&nbsp;<span style="color:oklch(72% 0.15 170)">"module"</span>: <span style="color:oklch(80% 0.10 85)">"gate"</span></div>
+            <div><span style="color:oklch(65% 0.01 265)">{'}'}</span></div>
+            <div>&nbsp;</div>
+            <div><span style="color:oklch(60% 0.01 265)">// respuesta</span></div>
+            <div><span style="color:oklch(65% 0.01 265)">{'{'}</span> <span style="color:oklch(72% 0.15 170)">"status"</span>: <span style="color:oklch(75% 0.15 145)">"compliant"</span>, <span style="color:oklch(72% 0.15 170)">"score"</span>: <span style="color:oklch(80% 0.10 85)">98</span> <span style="color:oklch(65% 0.01 265)">{'}'}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="precios" style="padding:96px 48px;background:oklch(96.5% 0.006 250)">
+    <div style="maxWidth:1240px;margin:0 auto">
+      <div style="textAlign:center;maxWidth:640px;margin:0 auto 40px">
+        <div style="fontSize:13px;fontWeight:700;letterSpacing:0.06em;textTransform:uppercase;color:oklch(54% 0.20 264);marginBottom:12px">Precios</div>
+        <h2 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:36px;letterSpacing:-0.02em;margin:0 0 16px;color:oklch(19% 0.03 265)">Un plan para cada etapa de tu operación B2B</h2>
+        <p style="fontSize:16px;lineHeight:1.6;color:oklch(46% 0.02 265);margin:0">Todos los planes incluyen acceso a los tres módulos Passly.</p>
+      </div>
+
+      <div style="display:flex;justifyContent:center;alignItems:center;gap:4px;marginBottom:48px">
+        <div style="display:inline-flex;padding:4px;borderRadius:11px;background:white;border:1px solid oklch(90% 0.01 260)">
+          <button onClick="{{ setMensual }}" style="{{ mensualBtnStyle }}">Mensual</button>
+          <button onClick="{{ setAnual }}" style="{{ anualBtnStyle }}">Anual <span style="fontSize:11px;padding:2px 8px;borderRadius:99px;background:oklch(94% 0.04 170);color:oklch(36% 0.10 170)">-20%</span></button>
+        </div>
+      </div>
+
+      <div style="display:grid;gridTemplateColumns:repeat(auto-fit,minmax(300px,1fr));gap:28px;alignItems:start">
+        <div style="padding:36px;borderRadius:20px;border:1px solid oklch(90% 0.01 260);background:white">
+          <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:19px;margin:0 0 8px;color:oklch(19% 0.03 265)">Starter</h3>
+          <p style="fontSize:14px;color:oklch(46% 0.02 265);margin:0 0 24px">Para equipos que inician su transformación digital.</p>
+          <div style="display:flex;alignItems:baseline;gap:6px;marginBottom:6px">
+            <span style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:38px;color:oklch(19% 0.03 265)">${{ priceStarter }}</span>
+            <span style="fontSize:14px;color:oklch(52% 0.02 265)">USD</span>
+          </div>
+          <div style="fontSize:13px;color:oklch(55% 0.02 265);marginBottom:28px">{{ billingSuffix }}</div>
+          <div style="display:flex;flexDirection:column;gap:11px;marginBottom:28px">
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>1 módulo Passly</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Hasta 250 verificaciones/mes</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Soporte por correo</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Panel de reportes básico</div>
+          </div>
+          <a href="#cta-final" style="display:block;textAlign:center;padding:13px;borderRadius:10px;border:1px solid oklch(85% 0.01 260);color:oklch(19% 0.03 265);fontWeight:700;fontSize:14px" style-hover="border-color:oklch(54% 0.20 264);color:oklch(54% 0.20 264)">Empezar</a>
+        </div>
+
+        <div style="padding:36px;borderRadius:20px;border:2px solid oklch(54% 0.20 264);background:white;position:relative;boxShadow:0 24px 48px -20px oklch(54% 0.20 264 / 0.3)">
+          <sc-if value="{{ popularBusiness }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;top:-13px;left:36px;padding:5px 14px;borderRadius:99px;background:oklch(54% 0.20 264);color:white;fontSize:12px;fontWeight:700">Más elegido</div>
+          </sc-if>
+          <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:19px;margin:0 0 8px;color:oklch(19% 0.03 265)">Business</h3>
+          <p style="fontSize:14px;color:oklch(46% 0.02 265);margin:0 0 24px">Para operaciones con múltiples frentes de compliance.</p>
+          <div style="display:flex;alignItems:baseline;gap:6px;marginBottom:6px">
+            <span style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:38px;color:oklch(19% 0.03 265)">${{ priceBusiness }}</span>
+            <span style="fontSize:14px;color:oklch(52% 0.02 265)">USD</span>
+          </div>
+          <div style="fontSize:13px;color:oklch(55% 0.02 265);marginBottom:28px">{{ billingSuffix }}</div>
+          <div style="display:flex;flexDirection:column;gap:11px;marginBottom:28px">
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Los 3 módulos Passly</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Verificaciones ilimitadas</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Acceso completo a la API</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Soporte prioritario 24/7</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Reportes y auditoría avanzada</div>
+          </div>
+          <a href="#cta-final" style="display:block;textAlign:center;padding:13px;borderRadius:10px;background:oklch(54% 0.20 264);color:white;fontWeight:700;fontSize:14px" style-hover="background:oklch(38% 0.16 264)">Solicitar demo</a>
+        </div>
+
+        <div style="padding:36px;borderRadius:20px;border:1px solid oklch(90% 0.01 260);background:white">
+          <h3 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:19px;margin:0 0 8px;color:oklch(19% 0.03 265)">Enterprise</h3>
+          <p style="fontSize:14px;color:oklch(46% 0.02 265);margin:0 0 24px">Para operaciones multi-país con necesidades a medida.</p>
+          <div style="display:flex;alignItems:baseline;gap:6px;marginBottom:6px">
+            <span style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:32px;color:oklch(19% 0.03 265)">Personalizado</span>
+          </div>
+          <div style="fontSize:13px;color:oklch(55% 0.02 265);marginBottom:28px">Cotización a medida</div>
+          <div style="display:flex;flexDirection:column;gap:11px;marginBottom:28px">
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Todo lo de Business</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>SLA e integración dedicada</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Despliegue multi-país</div>
+            <div style="display:flex;gap:8px;fontSize:14px;color:oklch(32% 0.02 265)"><span style="color:oklch(54% 0.20 264);fontWeight:700">✓</span>Gerente de cuenta dedicado</div>
+          </div>
+          <a href="#cta-final" style="display:block;textAlign:center;padding:13px;borderRadius:10px;border:1px solid oklch(85% 0.01 260);color:oklch(19% 0.03 265);fontWeight:700;fontSize:14px" style-hover="border-color:oklch(54% 0.20 264);color:oklch(54% 0.20 264)">Hablar con ventas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonios" style="padding:96px 48px;max-width:1240px;margin:0 auto">
+    <div style="textAlign:center;maxWidth:640px;margin:0 auto 56px">
+      <div style="fontSize:13px;fontWeight:700;letterSpacing:0.06em;textTransform:uppercase;color:oklch(54% 0.20 264);marginBottom:12px">Testimonios</div>
+      <h2 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:36px;letterSpacing:-0.02em;margin:0;color:oklch(19% 0.03 265)">Empresas que ya operan sin fricciones</h2>
+    </div>
+    <div style="display:grid;gridTemplateColumns:repeat(auto-fit,minmax(300px,1fr));gap:28px">
+      <div style="padding:32px;borderRadius:18px;background:oklch(96.5% 0.006 250);border:1px solid oklch(91% 0.008 260)">
+        <p style="fontSize:15.5px;lineHeight:1.65;color:oklch(28% 0.02 265);margin:0 0 24px">"Desde que integramos Passly GATE redujimos a cero los incidentes de acceso no autorizado en nuestras plantas."</p>
+        <div style="display:flex;alignItems:center;gap:12px">
+          <div style="width:40px;height:40px;borderRadius:50%;background:oklch(95% 0.03 264);color:oklch(42% 0.16 264);display:flex;alignItems:center;justifyContent:center;fontWeight:700;fontSize:14px">MR</div>
+          <div><div style="fontSize:14px;fontWeight:700;color:oklch(19% 0.03 265)">María Fernanda Ríos</div><div style="fontSize:13px;color:oklch(52% 0.02 265)">Directora de Seguridad, Grupo Industrial Andino</div></div>
+        </div>
+      </div>
+      <div style="padding:32px;borderRadius:18px;background:oklch(96.5% 0.006 250);border:1px solid oklch(91% 0.008 260)">
+        <p style="fontSize:15.5px;lineHeight:1.65;color:oklch(28% 0.02 265);margin:0 0 24px">"Passly VENDOR nos permitió pasar de tres semanas a 48 horas para aprobar un proveedor nuevo."</p>
+        <div style="display:flex;alignItems:center;gap:12px">
+          <div style="width:40px;height:40px;borderRadius:50%;background:oklch(95% 0.03 300);color:oklch(42% 0.15 300);display:flex;alignItems:center;justifyContent:center;fontWeight:700;fontSize:14px">CM</div>
+          <div><div style="fontSize:14px;fontWeight:700;color:oklch(19% 0.03 265)">Carlos Medina</div><div style="fontSize:13px;color:oklch(52% 0.02 265)">Gerente de Compras, Constructora Meridiano</div></div>
+        </div>
+      </div>
+      <div style="padding:32px;borderRadius:18px;background:oklch(96.5% 0.006 250);border:1px solid oklch(91% 0.008 260)">
+        <p style="fontSize:15.5px;lineHeight:1.65;color:oklch(28% 0.02 265);margin:0 0 24px">"El equipo de RRHH ya no persigue certificaciones vencidas — Passly WORK las controla por nosotros."</p>
+        <div style="display:flex;alignItems:center;gap:12px">
+          <div style="width:40px;height:40px;borderRadius:50%;background:oklch(94% 0.04 170);color:oklch(36% 0.10 170);display:flex;alignItems:center;justifyContent:center;fontWeight:700;fontSize:14px">LG</div>
+          <div><div style="fontSize:14px;fontWeight:700;color:oklch(19% 0.03 265)">Laura Gómez</div><div style="fontSize:13px;color:oklch(52% 0.02 265)">VP de Talento Humano, Logística Continental</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta-final" style="padding:96px 48px;background:oklch(19% 0.03 265);textAlign:center">
+    <div style="maxWidth:640px;margin:0 auto">
+      <h2 style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:36px;letterSpacing:-0.02em;margin:0 0 18px;color:white">Empieza tu transformación digital B2B hoy</h2>
+      <p style="fontSize:16px;lineHeight:1.6;color:oklch(75% 0.02 265);margin:0 0 36px">Agenda una demo y descubre cómo OLIZTIC reduce fricciones en compliance, proveedores y talento.</p>
+      <div style="display:flex;gap:14px;justifyContent:center;flexWrap:wrap">
+        <a href="#" style="padding:15px 28px;borderRadius:11px;background:white;color:oklch(19% 0.03 265);fontWeight:700;fontSize:15px" style-hover="background:oklch(88% 0.01 260)">Solicitar demo</a>
+        <a href="#" style="padding:15px 28px;borderRadius:11px;background:transparent;border:1px solid oklch(40% 0.02 265);color:white;fontWeight:700;fontSize:15px" style-hover="border-color:white">Hablar con un especialista</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:oklch(15% 0.025 265);padding:64px 48px 28px;color:oklch(70% 0.015 265)">
+    <div style="maxWidth:1240px;margin:0 auto">
+      <div style="display:grid;gridTemplateColumns:1.4fr 1fr 1fr 1fr;gap:40px;marginBottom:48px">
+        <div>
+          <div style="display:flex;alignItems:center;gap:10px;marginBottom:16px">
+            <div style="width:30px;height:30px;borderRadius:8px;background:conic-gradient(from 210deg, oklch(56% 0.18 300), oklch(54% 0.20 264), oklch(60% 0.15 170), oklch(56% 0.18 300))"></div>
+            <span style="fontFamily:'Manrope',sans-serif;fontWeight:800;fontSize:18px;color:white">OLIZTIC</span>
+          </div>
+          <p style="fontSize:14px;lineHeight:1.6;color:oklch(65% 0.015 265);maxWidth:260px;margin:0 0 20px">Ecosistema modular B2B para compliance, proveedores y talento.</p>
+          <div style="display:flex;gap:10px">
+            <a href="#" style="width:32px;height:32px;borderRadius:50%;background:oklch(24% 0.02 265);display:flex;alignItems:center;justifyContent:center;fontSize:13px;fontWeight:700;color:oklch(80% 0.01 265)" style-hover="background:oklch(32% 0.02 265)">in</a>
+            <a href="#" style="width:32px;height:32px;borderRadius:50%;background:oklch(24% 0.02 265);display:flex;alignItems:center;justifyContent:center;fontSize:13px;fontWeight:700;color:oklch(80% 0.01 265)" style-hover="background:oklch(32% 0.02 265)">X</a>
+          </div>
+        </div>
+        <div>
+          <div style="fontSize:13px;fontWeight:700;color:white;marginBottom:18px">Producto</div>
+          <div style="display:flex;flexDirection:column;gap:12px">
+            <a href="#passly-gate" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Passly GATE</a>
+            <a href="#passly-vendor" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Passly VENDOR</a>
+            <a href="#passly-work" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Passly WORK</a>
+            <a href="#api" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">API Docs</a>
+          </div>
+        </div>
+        <div>
+          <div style="fontSize:13px;fontWeight:700;color:white;marginBottom:18px">Compañía</div>
+          <div style="display:flex;flexDirection:column;gap:12px">
+            <a href="#" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Nosotros</a>
+            <a href="#" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Blog</a>
+            <a href="#" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Contacto</a>
+          </div>
+        </div>
+        <div>
+          <div style="fontSize:13px;fontWeight:700;color:white;marginBottom:18px">Legal</div>
+          <div style="display:flex;flexDirection:column;gap:12px">
+            <a href="#" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Términos</a>
+            <a href="#" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Privacidad</a>
+            <a href="#" style="fontSize:14px;color:oklch(65% 0.015 265)" style-hover="color:white">Seguridad</a>
+          </div>
+        </div>
+      </div>
+      <div style="paddingTop:24px;borderTop:1px solid oklch(24% 0.02 265);fontSize:13px;color:oklch(55% 0.015 265)">© 2026 OLIZTIC. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {}, &quot;showClientLogos&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Contenido&quot;}, &quot;popularTier&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;Business&quot;, &quot;options&quot;: [&quot;Starter&quot;, &quot;Business&quot;, &quot;Enterprise&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Precios&quot;}, &quot;billingDefault&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;mensual&quot;, &quot;options&quot;: [&quot;mensual&quot;, &quot;anual&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Precios&quot;}}">
+class Component extends DCLogic {
+  state = { billing: (this.props.billingDefault === 'anual') ? 'anual' : 'mensual' };
+
+  setMensual = () => this.setState({ billing: 'mensual' });
+  setAnual = () => this.setState({ billing: 'anual' });
+
+  renderVals() {
+    const isAnual = this.state.billing === 'anual';
+    const fmt = (monthly) => isAnual ? Math.round(monthly * 0.8) : monthly;
+    const popular = this.props.popularTier ?? 'Business';
+    const activeStyle = "border:none;cursor:pointer;padding:9px 20px;borderRadius:8px;fontSize:14px;fontWeight:700;background:oklch(54% 0.20 264);color:white";
+    const inactiveStyle = "border:none;cursor:pointer;padding:9px 20px;borderRadius:8px;fontSize:14px;fontWeight:700;background:transparent;color:oklch(46% 0.02 265);display:flex;alignItems:center;gap:8px";
+    return {
+      showLogos: this.props.showClientLogos ?? true,
+      setMensual: this.setMensual,
+      setAnual: this.setAnual,
+      mensualBtnStyle: isAnual ? inactiveStyle : activeStyle,
+      anualBtnStyle: (isAnual ? activeStyle : inactiveStyle) + ";display:flex;alignItems:center;gap:8px",
+      priceStarter: fmt(490),
+      priceBusiness: fmt(1290),
+      billingSuffix: isAnual ? '/mes, facturado anual' : '/mes',
+      popularStarter: popular === 'Starter',
+      popularBusiness: popular === 'Business',
+      popularEnterprise: popular === 'Enterprise',
+    };
+  }
+}
+</script>
+</body>
+</html>
