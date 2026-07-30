@@ -8,24 +8,61 @@ export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
 
+  const [mode, setMode] = useState("login"); // "login" | "signup"
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [remember, setRemember] = useState(false);
   const [mensaje, setMensaje] = useState("");
+  const [ok, setOk] = useState("");
   const [cargando, setCargando] = useState(false);
 
-  async function iniciarSesion(e) {
+  const isSignup = mode === "signup";
+
+  function cambiarModo(nuevo) {
+    setMode(nuevo);
+    setMensaje("");
+    setOk("");
+  }
+
+  async function onSubmit(e) {
     e.preventDefault();
     setCargando(true);
     setMensaje("");
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setCargando(false);
-    if (error) {
-      setMensaje(error.message);
+    setOk("");
+
+    if (isSignup) {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name },
+          emailRedirectTo: `${window.location.origin}/`,
+        },
+      });
+      setCargando(false);
+      if (error) {
+        setMensaje(error.message);
+      } else if (data?.user && !data.session) {
+        // Requiere confirmación por correo
+        setOk("Cuenta creada. Revisa tu correo para confirmarla.");
+      } else {
+        router.push("/");
+        router.refresh();
+      }
     } else {
-      router.push("/dashboard");
-      router.refresh();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      setCargando(false);
+      if (error) {
+        setMensaje(error.message);
+      } else {
+        router.push("/");
+        router.refresh();
+      }
     }
   }
 
@@ -33,7 +70,7 @@ export default function LoginPage() {
     setMensaje("");
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/dashboard` },
+      options: { redirectTo: `${window.location.origin}/` },
     });
     if (error) setMensaje(error.message);
   }
@@ -46,19 +83,58 @@ export default function LoginPage() {
           <img src="/logo_nav1.svg" alt="OLIZTIC" className="auth-logo" />
         </div>
         <div className="auth-side-foot">
-          © {new Date().getFullYear()} OLIZTIC ·{" "}
-          <a href="/">Volver al sitio</a>
+          © {new Date().getFullYear()} OLIZTIC · <a href="/">Volver al sitio</a>
         </div>
       </aside>
 
       {/* DERECHA: formulario */}
       <main className="auth-main">
-        <form className="auth-form" onSubmit={iniciarSesion}>
+        <form className="auth-form" onSubmit={onSubmit}>
           <div className="auth-eyebrow">Passly · Portal de clientes</div>
-          <h1 className="auth-title">Bienvenido de nuevo</h1>
+          <h1 className="auth-title">
+            {isSignup ? "Crea tu cuenta" : "Bienvenido de nuevo"}
+          </h1>
           <p className="auth-sub">
-            Ingresa con tu cuenta corporativa para continuar.
+            {isSignup
+              ? "Regístrate con tu correo corporativo para empezar."
+              : "Ingresa con tu cuenta corporativa para continuar."}
           </p>
+
+          {/* Tabs */}
+          <div className="auth-tabs">
+            <button
+              type="button"
+              className={!isSignup ? "active" : ""}
+              onClick={() => cambiarModo("login")}
+            >
+              Iniciar sesión
+            </button>
+            <button
+              type="button"
+              className={isSignup ? "active" : ""}
+              onClick={() => cambiarModo("signup")}
+            >
+              Crear cuenta
+            </button>
+          </div>
+
+          {isSignup && (
+            <>
+              <label className="auth-label" htmlFor="name">
+                Nombre completo
+              </label>
+              <input
+                id="name"
+                type="text"
+                className="auth-input"
+                placeholder="Tu nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+              <div style={{ height: 18 }} />
+            </>
+          )}
 
           <label className="auth-label" htmlFor="email">
             Correo corporativo
@@ -89,30 +165,39 @@ export default function LoginPage() {
             id="password"
             type={showPass ? "text" : "password"}
             className="auth-input"
-            placeholder="••••••••"
+            placeholder={isSignup ? "Mínimo 6 caracteres" : "••••••••"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            minLength={6}
             required
           />
 
-          <div className="auth-row">
-            <label className="auth-check">
-              <input
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-              />
-              Recordarme
-            </label>
-            <a href="#" className="auth-link">
-              ¿Olvidaste tu contraseña?
-            </a>
-          </div>
+          {!isSignup && (
+            <div className="auth-row">
+              <label className="auth-check">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                />
+                Recordarme
+              </label>
+              <a href="#" className="auth-link">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+          )}
+          {isSignup && <div style={{ height: 24 }} />}
 
           {mensaje && <div className="auth-error">{mensaje}</div>}
+          {ok && <div className="auth-ok">{ok}</div>}
 
           <button type="submit" className="auth-submit" disabled={cargando}>
-            {cargando ? "Entrando…" : "Iniciar sesión"}
+            {cargando
+              ? "Procesando…"
+              : isSignup
+              ? "Crear cuenta"
+              : "Iniciar sesión"}
           </button>
 
           <div className="auth-divider">
@@ -129,7 +214,29 @@ export default function LoginPage() {
           </button>
 
           <p className="auth-foot">
-            ¿No tienes acceso? <a href="/#cta-final">Solicita una demo</a>
+            {isSignup ? (
+              <>
+                ¿Ya tienes cuenta?{" "}
+                <button
+                  type="button"
+                  className="auth-linkbtn"
+                  onClick={() => cambiarModo("login")}
+                >
+                  Inicia sesión
+                </button>
+              </>
+            ) : (
+              <>
+                ¿No tienes cuenta?{" "}
+                <button
+                  type="button"
+                  className="auth-linkbtn"
+                  onClick={() => cambiarModo("signup")}
+                >
+                  Crear una cuenta
+                </button>
+              </>
+            )}
           </p>
         </form>
       </main>

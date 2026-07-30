@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { createClient } from "../lib/supabase/client";
 
 /* ---------- Íconos de línea (stroke, heredan color) ---------- */
 const paths = {
@@ -115,7 +116,37 @@ const MENUS = {
 export default function Navbar() {
   const [open, setOpen] = useState(null);
   const [mobile, setMobile] = useState(false);
+  const [user, setUser] = useState(null);
+  const [userMenu, setUserMenu] = useState(false);
   const closeTimer = useRef(null);
+  const supabase = createClient();
+
+  // Detecta la sesión actual y escucha cambios (login / logout)
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (active) setUser(data?.user ?? null);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
+  async function cerrarSesion() {
+    await supabase.auth.signOut();
+    setUser(null);
+    setUserMenu(false);
+  }
+
+  const displayName =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split("@")[0] ||
+    "Mi cuenta";
 
   const cancelClose = () => {
     if (closeTimer.current) {
@@ -200,9 +231,41 @@ export default function Navbar() {
         )}
       </nav>
 
-      <a href="/login" className="btn btn-primary header-cta">
-        Solicitar demo
-      </a>
+      {user ? (
+        <div
+          className="user-chip-wrap"
+          onMouseLeave={() => setUserMenu(false)}
+        >
+          <button
+            className="user-chip"
+            onClick={() => setUserMenu((v) => !v)}
+            onMouseEnter={() => setUserMenu(true)}
+          >
+            <span className="user-avatar">
+              {displayName.charAt(0).toUpperCase()}
+            </span>
+            <span className="user-name">{displayName}</span>
+            <svg className="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+          {userMenu && (
+            <div className="user-menu">
+              <div className="user-menu-head">
+                <div className="um-name">{displayName}</div>
+                <div className="um-email">{user.email}</div>
+              </div>
+              <button className="user-menu-item" onClick={cerrarSesion}>
+                Cerrar sesión
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <a href="/login" className="btn btn-primary header-cta">
+          Solicitar demo
+        </a>
+      )}
 
       {/* Botón hamburguesa (móvil) */}
       <button
@@ -231,9 +294,27 @@ export default function Navbar() {
           <div className="mobile-group">
             <a href="#precios" onClick={() => setMobile(false)}>Precios</a>
             <a href="#api" onClick={() => setMobile(false)}>API Docs</a>
-            <a href="/login" className="btn btn-primary" style={{ padding: "12px", borderRadius: 10, marginTop: 8 }}>
-              Solicitar demo
-            </a>
+            {user ? (
+              <>
+                <div className="mobile-group-title" style={{ marginTop: 8 }}>
+                  {displayName}
+                </div>
+                <button
+                  className="btn btn-primary"
+                  style={{ padding: "12px", borderRadius: 10, marginTop: 4 }}
+                  onClick={() => {
+                    cerrarSesion();
+                    setMobile(false);
+                  }}
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            ) : (
+              <a href="/login" className="btn btn-primary" style={{ padding: "12px", borderRadius: 10, marginTop: 8 }}>
+                Solicitar demo
+              </a>
+            )}
           </div>
         </div>
       )}
