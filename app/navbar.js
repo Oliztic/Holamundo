@@ -119,7 +119,20 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [userMenu, setUserMenu] = useState(false);
   const closeTimer = useRef(null);
+  const userMenuRef = useRef(null);
   const supabase = createClient();
+
+  // Cierra el menú de usuario al hacer clic fuera
+  useEffect(() => {
+    if (!userMenu) return;
+    function onDocClick(e) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [userMenu]);
 
   // Detecta la sesión actual y escucha cambios (login / logout)
   useEffect(() => {
@@ -232,14 +245,10 @@ export default function Navbar() {
       </nav>
 
       {user ? (
-        <div
-          className="user-chip-wrap"
-          onMouseLeave={() => setUserMenu(false)}
-        >
+        <div className="user-chip-wrap" ref={userMenuRef}>
           <button
             className="user-chip"
             onClick={() => setUserMenu((v) => !v)}
-            onMouseEnter={() => setUserMenu(true)}
           >
             <span className="user-avatar">
               {displayName.charAt(0).toUpperCase()}
@@ -255,6 +264,9 @@ export default function Navbar() {
                 <div className="um-name">{displayName}</div>
                 <div className="um-email">{user.email}</div>
               </div>
+              <a className="user-menu-item" href="/cuenta">
+                Mi cuenta
+              </a>
               <button className="user-menu-item" onClick={cerrarSesion}>
                 Cerrar sesión
               </button>

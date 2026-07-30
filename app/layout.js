@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Manrope, Inter } from "next/font/google";
+import CookieBanner from "./cookie-banner";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
           <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
         </noscript>
         {children}
+        <CookieBanner />
       </body>
     </html>
   );

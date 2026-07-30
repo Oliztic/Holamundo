@@ -10,10 +10,12 @@ export default function LoginPage() {
 
   const [mode, setMode] = useState("login"); // "login" | "signup"
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [remember, setRemember] = useState(false);
+  const [acepta, setAcepta] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [ok, setOk] = useState("");
   const [cargando, setCargando] = useState(false);
@@ -33,11 +35,23 @@ export default function LoginPage() {
     setOk("");
 
     if (isSignup) {
+      if (!acepta) {
+        setCargando(false);
+        setMensaje(
+          "Debes autorizar el tratamiento de datos para crear la cuenta."
+        );
+        return;
+      }
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { full_name: name },
+          data: {
+            full_name: name,
+            phone,
+            consent_privacidad: true,
+            consent_fecha: new Date().toISOString(),
+          },
           emailRedirectTo: `${window.location.origin}/`,
         },
       });
@@ -63,6 +77,23 @@ export default function LoginPage() {
         router.push("/");
         router.refresh();
       }
+    }
+  }
+
+  async function recuperarContrasena() {
+    setMensaje("");
+    setOk("");
+    if (!email) {
+      setMensaje("Escribe tu correo arriba y vuelve a pulsar el enlace.");
+      return;
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) {
+      setMensaje(error.message);
+    } else {
+      setOk("Te enviamos un correo para restablecer tu contraseña.");
     }
   }
 
@@ -133,6 +164,20 @@ export default function LoginPage() {
                 required
               />
               <div style={{ height: 18 }} />
+
+              <label className="auth-label" htmlFor="phone">
+                Teléfono
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                className="auth-input"
+                placeholder="+57 300 000 0000"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+              <div style={{ height: 18 }} />
             </>
           )}
 
@@ -182,12 +227,35 @@ export default function LoginPage() {
                 />
                 Recordarme
               </label>
-              <a href="#" className="auth-link">
+              <button
+                type="button"
+                className="auth-linkbtn"
+                onClick={recuperarContrasena}
+              >
                 ¿Olvidaste tu contraseña?
-              </a>
+              </button>
             </div>
           )}
-          {isSignup && <div style={{ height: 24 }} />}
+          {isSignup && (
+            <label className="auth-consent">
+              <input
+                type="checkbox"
+                checked={acepta}
+                onChange={(e) => setAcepta(e.target.checked)}
+              />
+              <span>
+                Autorizo el tratamiento de mis datos personales conforme a la{" "}
+                <a href="/privacidad" target="_blank">
+                  Política de Datos
+                </a>{" "}
+                y acepto los{" "}
+                <a href="/terminos" target="_blank">
+                  Términos y Condiciones
+                </a>
+                .
+              </span>
+            </label>
+          )}
 
           {mensaje && <div className="auth-error">{mensaje}</div>}
           {ok && <div className="auth-ok">{ok}</div>}

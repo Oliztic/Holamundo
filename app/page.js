@@ -480,9 +480,9 @@ export default function Home() {
             <div className="footer-col">
               <div className="col-title">Legal</div>
               <div className="links">
-                <a href="#">Términos</a>
-                <a href="#">Privacidad</a>
-                <a href="#">Seguridad</a>
+                <a href="/terminos">Términos y Condiciones</a>
+                <a href="/privacidad">Política de Datos</a>
+                <a href="mailto:help@oliztic.com">Habeas Data</a>
               </div>
             </div>
           </div>
