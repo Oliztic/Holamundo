@@ -275,7 +275,7 @@ export default function Navbar() {
         </div>
       ) : (
         <a href="/login" className="btn btn-primary header-cta">
-          Solicitar demo
+          Login
         </a>
       )}
 
@@ -324,7 +324,7 @@ export default function Navbar() {
               </>
             ) : (
               <a href="/login" className="btn btn-primary" style={{ padding: "12px", borderRadius: 10, marginTop: 8 }}>
-                Solicitar demo
+                Login
               </a>
             )}
           </div>

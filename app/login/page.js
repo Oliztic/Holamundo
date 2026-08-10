@@ -10,6 +10,7 @@ export default function LoginPage() {
 
   const [mode, setMode] = useState("login"); // "login" | "signup"
   const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,11 +49,12 @@ export default function LoginPage() {
         options: {
           data: {
             full_name: name,
+            company_name: company,
             phone,
             consent_privacidad: true,
             consent_fecha: new Date().toISOString(),
           },
-          emailRedirectTo: `${window.location.origin}/`,
+          emailRedirectTo: `${window.location.origin}/panel`,
         },
       });
       setCargando(false);
@@ -62,7 +64,7 @@ export default function LoginPage() {
         // Requiere confirmación por correo
         setOk("Cuenta creada. Revisa tu correo para confirmarla.");
       } else {
-        router.push("/");
+        router.push("/panel");
         router.refresh();
       }
     } else {
@@ -74,7 +76,7 @@ export default function LoginPage() {
       if (error) {
         setMensaje(error.message);
       } else {
-        router.push("/");
+        router.push("/panel");
         router.refresh();
       }
     }
@@ -101,7 +103,7 @@ export default function LoginPage() {
     setMensaje("");
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/` },
+      options: { redirectTo: `${window.location.origin}/panel` },
     });
     if (error) setMensaje(error.message);
   }
@@ -161,6 +163,20 @@ export default function LoginPage() {
                 placeholder="Tu nombre"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
+              />
+              <div style={{ height: 18 }} />
+
+              <label className="auth-label" htmlFor="company">
+                Empresa
+              </label>
+              <input
+                id="company"
+                type="text"
+                className="auth-input"
+                placeholder="Nombre de tu empresa"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
                 required
               />
               <div style={{ height: 18 }} />
