@@ -4,6 +4,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../lib/supabase/client";
 
+const DOMINIOS_PUBLICOS = [
+  "gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "live.com",
+  "icloud.com", "aol.com", "protonmail.com", "proton.me", "gmx.com",
+  "yandex.com", "mail.com", "hotmail.es", "outlook.es", "yahoo.es",
+];
+
+function esCorporativo(email) {
+  const d = email.split("@")[1]?.toLowerCase().trim();
+  return !!d && !DOMINIOS_PUBLICOS.includes(d);
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
@@ -11,6 +22,7 @@ export default function LoginPage() {
   const [mode, setMode] = useState("login"); // "login" | "signup"
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
+  const [companyNit, setCompanyNit] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,14 +55,23 @@ export default function LoginPage() {
         );
         return;
       }
+      if (!esCorporativo(email)) {
+        setCargando(false);
+        setMensaje(
+          "Regístrate con un correo corporativo (no se permiten correos públicos como Gmail o Hotmail)."
+        );
+        return;
+      }
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            full_name: name,
-            company_name: company,
-            phone,
+            full_name: name.trim(),
+            company_name: company.trim(),
+            company_nit: companyNit.trim(),
+            phone: phone.trim(),
+            verificado: false,
             consent_privacidad: true,
             consent_fecha: new Date().toISOString(),
           },
@@ -177,6 +198,20 @@ export default function LoginPage() {
                 placeholder="Nombre de tu empresa"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
+                required
+              />
+              <div style={{ height: 18 }} />
+
+              <label className="auth-label" htmlFor="nit">
+                NIT
+              </label>
+              <input
+                id="nit"
+                type="text"
+                className="auth-input"
+                placeholder="901.234.567-8"
+                value={companyNit}
+                onChange={(e) => setCompanyNit(e.target.value)}
                 required
               />
               <div style={{ height: 18 }} />

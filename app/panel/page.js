@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../lib/supabase/client";
+import ProveedoresSection from "./proveedores";
 
 const ICONS = {
   inicio: "M3 11l9-8 9 8M5 10v10h14V10",
@@ -36,6 +37,8 @@ export default function PanelPage() {
   const [org, setOrg] = useState("");
   const [seccion, setSeccion] = useState("inicio");
   const [navOpen, setNavOpen] = useState(false);
+  const [avisoVerif, setAvisoVerif] = useState("");
+  const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -68,6 +71,22 @@ export default function PanelPage() {
     router.refresh();
   }
 
+  async function enviarVerificacion() {
+    setEnviando(true);
+    setAvisoVerif("");
+    const { error } = await supabase.auth.signInWithOtp({
+      email: user.email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/verificar`,
+        shouldCreateUser: false,
+      },
+    });
+    setEnviando(false);
+    setAvisoVerif(
+      error ? error.message : "Correo de verificación enviado. Revisa tu bandeja."
+    );
+  }
+
   if (loading) {
     return (
       <div className="panel-loading">
@@ -80,6 +99,9 @@ export default function PanelPage() {
     user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Usuario";
   const inicial = (org || "E").charAt(0).toUpperCase();
   const seccionActual = MENU.find((m) => m.key === seccion);
+  const provider = user?.app_metadata?.provider || "email";
+  const noVerificado =
+    provider === "email" && user?.user_metadata?.verificado !== true;
 
   return (
     <div className="panel">
@@ -138,6 +160,23 @@ export default function PanelPage() {
   
 
         <div className="panel-content">
+          {noVerificado && (
+            <div className="panel-alert">
+              <div className="panel-alert-txt">
+                <strong>Cuenta sin verificar.</strong> Verifica tu correo para
+                asegurar el acceso a {org}.
+              </div>
+              <button
+                className="panel-alert-btn"
+                onClick={enviarVerificacion}
+                disabled={enviando}
+              >
+                {enviando ? "Enviando…" : "Verificar correo"}
+              </button>
+            </div>
+          )}
+          {avisoVerif && <div className="panel-alert ok">{avisoVerif}</div>}
+
           {seccion === "inicio" ? (
             <>
               <div className="panel-welcome">
@@ -160,6 +199,8 @@ export default function PanelPage() {
                 ))}
               </div>
             </>
+          ) : seccion === "gate" ? (
+            <ProveedoresSection supabase={supabase} />
           ) : (
             <Placeholder titulo={seccionActual?.label} />
           )}
