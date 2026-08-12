@@ -2175,6 +2175,20 @@ h3 {
   gap: 6px;
   white-space: nowrap;
 }
+.eq-desc {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+.eq-yo {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  background: oklch(95% 0.03 264);
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
 .pv-detalle {
   background: #fff;
   border: 1px solid var(--border);

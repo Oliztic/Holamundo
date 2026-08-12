@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../lib/supabase/client";
 import ProveedoresSection from "./proveedores";
+import EquipoSection from "./equipo";
 
 const ICONS = {
   inicio: "M3 11l9-8 9 8M5 10v10h14V10",
@@ -201,6 +202,8 @@ export default function PanelPage() {
             </>
           ) : seccion === "gate" ? (
             <ProveedoresSection supabase={supabase} />
+          ) : seccion === "config" ? (
+            <EquipoSection />
           ) : (
             <Placeholder titulo={seccionActual?.label} />
           )}
