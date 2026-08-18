@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "../../../../lib/supabase/server";
-import { createAdminClient } from "../../../../lib/supabase/admin";
+import { createAdminClient, buscarUsuarioPorCorreo } from "../../../../lib/supabase/admin";
 import { enviarInvitacionProveedor } from "../../../../lib/email";
 
 const PUBLICOS = [
@@ -65,23 +65,37 @@ export async function POST(req) {
   const pass = tempPassword();
   const nombre = dominio.split(".")[0];
 
-  // Crear la cuenta del proveedor (si no existe ya)
+  // Crear o actualizar la cuenta del proveedor (siempre aplica la clave temporal)
   let providerUserId = null;
   let yaExistia = false;
-  const { data: created, error: cErr } = await admin.auth.admin.createUser({
-    email: correo,
-    password: pass,
-    email_confirm: true,
-    user_metadata: {
-      rol: "proveedor",
-      verificado: true,
-      company_name: nombre,
-      company_nit: nit,
-    },
-  });
-  if (cErr) {
+  const existente = await buscarUsuarioPorCorreo(admin, correo);
+  if (existente) {
     yaExistia = true;
+    providerUserId = existente.id;
+    await admin.auth.admin.updateUserById(existente.id, {
+      password: pass,
+      email_confirm: true,
+      user_metadata: {
+        ...(existente.user_metadata || {}),
+        rol: "proveedor",
+        verificado: true,
+        must_change_password: true,
+        company_nit: nit,
+      },
+    });
   } else {
+    const { data: created } = await admin.auth.admin.createUser({
+      email: correo,
+      password: pass,
+      email_confirm: true,
+      user_metadata: {
+        rol: "proveedor",
+        verificado: true,
+        must_change_password: true,
+        company_name: nombre,
+        company_nit: nit,
+      },
+    });
     providerUserId = created?.user?.id ?? null;
   }
 

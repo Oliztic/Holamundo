@@ -50,6 +50,10 @@ export default function PanelPage() {
         router.replace("/login");
         return;
       }
+      if (user.user_metadata?.rol === "proveedor") {
+        router.replace("/panel-proveedor");
+        return;
+      }
       setUser(user);
       let nombre = user.user_metadata?.company_name || "";
       try {

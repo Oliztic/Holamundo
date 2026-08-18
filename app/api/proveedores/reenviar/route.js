@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "../../../../lib/supabase/server";
-import { createAdminClient } from "../../../../lib/supabase/admin";
+import { createAdminClient, buscarUsuarioPorCorreo } from "../../../../lib/supabase/admin";
 import { enviarInvitacionProveedor } from "../../../../lib/email";
 
 function tempPassword() {
@@ -62,29 +62,50 @@ export async function POST(req) {
   const nombre = correo.split("@")[1].split(".")[0];
 
   if (prov.user_id) {
+    const { data: cur } = await admin.auth.admin.getUserById(prov.user_id);
+    const meta = {
+      ...(cur?.user?.user_metadata || {}),
+      must_change_password: true,
+    };
     const { error } = await admin.auth.admin.updateUserById(prov.user_id, {
       password: pass,
+      user_metadata: meta,
     });
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
   } else {
-    const { data: created, error } = await admin.auth.admin.createUser({
-      email: correo,
-      password: pass,
-      email_confirm: true,
-      user_metadata: {
-        rol: "proveedor",
-        verificado: true,
-        company_name: nombre,
-        company_nit: prov.nit,
-      },
-    });
-    if (!error && created?.user?.id) {
-      await admin
-        .from("proveedores")
-        .update({ user_id: created.user.id })
-        .eq("id", prov.id);
+    const existente = await buscarUsuarioPorCorreo(admin, correo);
+    let uid = null;
+    if (existente) {
+      uid = existente.id;
+      await admin.auth.admin.updateUserById(existente.id, {
+        password: pass,
+        email_confirm: true,
+        user_metadata: {
+          ...(existente.user_metadata || {}),
+          rol: "proveedor",
+          verificado: true,
+          must_change_password: true,
+        },
+      });
+    } else {
+      const { data: created } = await admin.auth.admin.createUser({
+        email: correo,
+        password: pass,
+        email_confirm: true,
+        user_metadata: {
+          rol: "proveedor",
+          verificado: true,
+          must_change_password: true,
+          company_name: nombre,
+          company_nit: prov.nit,
+        },
+      });
+      uid = created?.user?.id ?? null;
+    }
+    if (uid) {
+      await admin.from("proveedores").update({ user_id: uid }).eq("id", prov.id);
     }
   }
 

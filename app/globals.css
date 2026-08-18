@@ -2271,6 +2271,62 @@ h3 {
   }
 }
 
+/* ---------- PANEL PROVEEDOR ---------- */
+.prov-shell {
+  min-height: 100vh;
+  background: oklch(98% 0.003 260);
+}
+.prov-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.prov-logo {
+  height: 30px;
+  width: auto;
+}
+.prov-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.prov-user {
+  font-size: 13px;
+  color: var(--muted);
+}
+.prov-logout {
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 8px 14px;
+  border-radius: 4px;
+}
+.prov-logout:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.prov-main {
+  padding: 40px 24px;
+}
+.prov-main h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink-strong);
+  margin: 0 0 6px;
+}
+.prov-main p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+}
+
 /* ---------- BANNER DE COOKIES ---------- */
 .cookie-banner {
   position: fixed;
