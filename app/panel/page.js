@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../lib/supabase/client";
 import ProveedoresSection from "./proveedores";
+import { siteUrl } from "../../lib/site";
 import EquipoSection from "./equipo";
 
 const ICONS = {
@@ -82,7 +83,7 @@ export default function PanelPage() {
     const { error } = await supabase.auth.signInWithOtp({
       email: user.email,
       options: {
-        emailRedirectTo: `${window.location.origin}/verificar`,
+        emailRedirectTo: `${siteUrl()}/verificar`,
         shouldCreateUser: false,
       },
     });

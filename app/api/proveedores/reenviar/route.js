@@ -109,7 +109,10 @@ export async function POST(req) {
     }
   }
 
-  const origin = req.headers.get("origin") || new URL(req.url).origin;
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    req.headers.get("origin") ||
+    new URL(req.url).origin;
   let emailSent = false;
   try {
     emailSent = await enviarInvitacionProveedor(correo, pass, origin);

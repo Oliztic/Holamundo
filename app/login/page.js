@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../lib/supabase/client";
+import { siteUrl } from "../../lib/site";
 
 const DOMINIOS_PUBLICOS = [
   "gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "live.com",
@@ -75,7 +76,7 @@ export default function LoginPage() {
             consent_privacidad: true,
             consent_fecha: new Date().toISOString(),
           },
-          emailRedirectTo: `${window.location.origin}/panel`,
+          emailRedirectTo: `${siteUrl()}/panel`,
         },
       });
       setCargando(false);
@@ -111,7 +112,7 @@ export default function LoginPage() {
       return;
     }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${siteUrl()}/reset-password`,
     });
     if (error) {
       setMensaje(error.message);
@@ -124,7 +125,7 @@ export default function LoginPage() {
     setMensaje("");
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/panel` },
+      options: { redirectTo: `${siteUrl()}/panel` },
     });
     if (error) setMensaje(error.message);
   }
