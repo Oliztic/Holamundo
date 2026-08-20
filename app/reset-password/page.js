@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../lib/supabase/client";
 
@@ -8,11 +8,37 @@ export default function ResetPasswordPage() {
   const router = useRouter();
   const supabase = createClient();
 
+  const [ready, setReady] = useState(false);
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [ok, setOk] = useState("");
   const [cargando, setCargando] = useState(false);
+
+  // Establece la sesión desde el enlace del correo antes de permitir el cambio.
+  useEffect(() => {
+    (async () => {
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("code");
+      const token_hash = url.searchParams.get("token_hash");
+      const type = url.searchParams.get("type");
+      try {
+        if (code) {
+          await supabase.auth.exchangeCodeForSession(code);
+        } else if (token_hash) {
+          await supabase.auth.verifyOtp({ type: type || "recovery", token_hash });
+        }
+      } catch {}
+      const { data } = await supabase.auth.getUser();
+      if (data?.user) {
+        setReady(true);
+      } else {
+        setMensaje(
+          "Enlace inválido o expirado. Solicita de nuevo el correo de recuperación."
+        );
+      }
+    })();
+  }, []);
 
   async function guardar(e) {
     e.preventDefault();
@@ -79,7 +105,11 @@ export default function ResetPasswordPage() {
           {mensaje && <div className="auth-error">{mensaje}</div>}
           {ok && <div className="auth-ok">{ok}</div>}
 
-          <button type="submit" className="auth-submit" disabled={cargando}>
+          <button
+            type="submit"
+            className="auth-submit"
+            disabled={cargando || !ready}
+          >
             {cargando ? "Guardando…" : "Guardar contraseña"}
           </button>
 
