@@ -8,88 +8,50 @@ export default function ResetPasswordPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  const [ready, setReady] = useState(false);
+  const [email, setEmail] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [ok, setOk] = useState("");
   const [cargando, setCargando] = useState(false);
 
-  // Establece la sesión desde el enlace del correo antes de permitir el cambio.
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) setReady(true);
-    });
-
-    (async () => {
-      const url = new URL(window.location.href);
-      const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
-      const q = url.searchParams;
-
-      // Error explícito devuelto por Supabase (enlace expirado, etc.)
-      const errCode = q.get("error") || hash.get("error");
-      const errDesc = q.get("error_description") || hash.get("error_description");
-      if (errCode) {
-        setMensaje(`Error: ${errDesc || errCode}`);
-        return;
-      }
-
-      let err = null;
-      try {
-        const code = q.get("code");
-        const token_hash = q.get("token_hash") || hash.get("token_hash");
-        const type = q.get("type") || hash.get("type") || "recovery";
-        const access_token = hash.get("access_token");
-        const refresh_token = hash.get("refresh_token");
-
-        if (access_token && refresh_token) {
-          const { error } = await supabase.auth.setSession({
-            access_token,
-            refresh_token,
-          });
-          err = error;
-        } else if (code) {
-          const { error } = await supabase.auth.exchangeCodeForSession(code);
-          err = error;
-        } else if (token_hash) {
-          const { error } = await supabase.auth.verifyOtp({ type, token_hash });
-          err = error;
-        }
-      } catch (e) {
-        err = e;
-      }
-
-      const { data } = await supabase.auth.getUser();
-      if (data?.user) {
-        setReady(true);
-      } else {
-        setMensaje(
-          "Enlace inválido o expirado" +
-            (err?.message ? ` (${err.message})` : "") +
-            ". Solicita de nuevo el correo de recuperación."
-        );
-      }
-    })();
-
-    return () => sub.subscription.unsubscribe();
+    const e = new URLSearchParams(window.location.search).get("email");
+    if (e) setEmail(e);
   }, []);
 
   async function guardar(e) {
     e.preventDefault();
+    if (password.length < 6) {
+      setMensaje("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
     setCargando(true);
     setMensaje("");
     setOk("");
-    const { error } = await supabase.auth.updateUser({ password });
-    setCargando(false);
-    if (error) {
-      setMensaje(error.message);
-    } else {
-      setOk("Contraseña actualizada. Redirigiendo…");
-      setTimeout(() => {
-        router.push("/");
-        router.refresh();
-      }, 1400);
+
+    let json = {};
+    try {
+      const res = await fetch("/api/reset/confirmar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), code: codigo.trim(), password }),
+      });
+      json = await res.json();
+      if (!res.ok) {
+        setCargando(false);
+        setMensaje(json.error || "No se pudo cambiar la contraseña.");
+        return;
+      }
+    } catch {
+      setCargando(false);
+      setMensaje("Error de red.");
+      return;
     }
+    setCargando(false);
+    setOk("Contraseña actualizada. Redirigiendo a iniciar sesión…");
+    setTimeout(() => router.push("/login"), 1400);
   }
 
   return (
@@ -108,9 +70,40 @@ export default function ResetPasswordPage() {
           <div className="auth-eyebrow">Passly · Portal de clientes</div>
           <h1 className="auth-title">Nueva contraseña</h1>
           <p className="auth-sub">
-            Escribe tu nueva contraseña para acceder a tu cuenta.
+            Ingresa el código de 6 dígitos que enviamos a tu correo y tu nueva
+            contraseña.
           </p>
 
+          <label className="auth-label" htmlFor="email">
+            Correo
+          </label>
+          <input
+            id="email"
+            type="email"
+            className="auth-input"
+            placeholder="nombre@empresa.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <div style={{ height: 14 }} />
+          <label className="auth-label" htmlFor="codigo">
+            Código de verificación
+          </label>
+          <input
+            id="codigo"
+            type="text"
+            inputMode="numeric"
+            maxLength={6}
+            className="auth-input"
+            placeholder="123456"
+            value={codigo}
+            onChange={(e) => setCodigo(e.target.value.replace(/\D/g, ""))}
+            required
+          />
+
+          <div style={{ height: 14 }} />
           <div className="auth-label-row">
             <label className="auth-label" htmlFor="password">
               Nueva contraseña
@@ -134,16 +127,12 @@ export default function ResetPasswordPage() {
             required
           />
 
-          <div style={{ height: 24 }} />
+          <div style={{ height: 20 }} />
 
           {mensaje && <div className="auth-error">{mensaje}</div>}
           {ok && <div className="auth-ok">{ok}</div>}
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={cargando || !ready}
-          >
+          <button type="submit" className="auth-submit" disabled={cargando}>
             {cargando ? "Guardando…" : "Guardar contraseña"}
           </button>
 

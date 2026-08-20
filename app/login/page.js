@@ -111,14 +111,14 @@ export default function LoginPage() {
       setMensaje("Escribe tu correo arriba y vuelve a pulsar el enlace.");
       return;
     }
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${siteUrl()}/reset-password`,
-    });
-    if (error) {
-      setMensaje(error.message);
-    } else {
-      setOk("Te enviamos un correo para restablecer tu contraseña.");
-    }
+    try {
+      await fetch("/api/reset/solicitar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+    } catch {}
+    router.push(`/reset-password?email=${encodeURIComponent(email)}`);
   }
 
   async function continuarConGoogle() {
