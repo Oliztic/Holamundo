@@ -17,27 +17,42 @@ export default function ResetPasswordPage() {
 
   // Establece la sesión desde el enlace del correo antes de permitir el cambio.
   useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (session) setReady(true);
+    });
+
     (async () => {
       const url = new URL(window.location.href);
       const code = url.searchParams.get("code");
-      const token_hash = url.searchParams.get("token_hash");
-      const type = url.searchParams.get("type");
+      const token_hash =
+        url.searchParams.get("token_hash") ||
+        new URLSearchParams(url.hash.replace(/^#/, "")).get("token_hash");
+      const type = url.searchParams.get("type") || "recovery";
+      let err = null;
       try {
         if (code) {
-          await supabase.auth.exchangeCodeForSession(code);
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          err = error;
         } else if (token_hash) {
-          await supabase.auth.verifyOtp({ type: type || "recovery", token_hash });
+          const { error } = await supabase.auth.verifyOtp({ type, token_hash });
+          err = error;
         }
-      } catch {}
+      } catch (e) {
+        err = e;
+      }
       const { data } = await supabase.auth.getUser();
       if (data?.user) {
         setReady(true);
       } else {
         setMensaje(
-          "Enlace inválido o expirado. Solicita de nuevo el correo de recuperación."
+          "Enlace inválido o expirado" +
+            (err?.message ? ` (${err.message})` : "") +
+            ". Solicita de nuevo el correo de recuperación."
         );
       }
     })();
+
+    return () => sub.subscription.unsubscribe();
   }, []);
 
   async function guardar(e) {
