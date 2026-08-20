@@ -23,14 +23,32 @@ export default function ResetPasswordPage() {
 
     (async () => {
       const url = new URL(window.location.href);
-      const code = url.searchParams.get("code");
-      const token_hash =
-        url.searchParams.get("token_hash") ||
-        new URLSearchParams(url.hash.replace(/^#/, "")).get("token_hash");
-      const type = url.searchParams.get("type") || "recovery";
+      const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+      const q = url.searchParams;
+
+      // Error explícito devuelto por Supabase (enlace expirado, etc.)
+      const errCode = q.get("error") || hash.get("error");
+      const errDesc = q.get("error_description") || hash.get("error_description");
+      if (errCode) {
+        setMensaje(`Error: ${errDesc || errCode}`);
+        return;
+      }
+
       let err = null;
       try {
-        if (code) {
+        const code = q.get("code");
+        const token_hash = q.get("token_hash") || hash.get("token_hash");
+        const type = q.get("type") || hash.get("type") || "recovery";
+        const access_token = hash.get("access_token");
+        const refresh_token = hash.get("refresh_token");
+
+        if (access_token && refresh_token) {
+          const { error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token,
+          });
+          err = error;
+        } else if (code) {
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           err = error;
         } else if (token_hash) {
@@ -40,6 +58,7 @@ export default function ResetPasswordPage() {
       } catch (e) {
         err = e;
       }
+
       const { data } = await supabase.auth.getUser();
       if (data?.user) {
         setReady(true);
