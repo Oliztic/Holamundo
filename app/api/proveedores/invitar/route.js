@@ -69,6 +69,12 @@ export async function POST(req) {
   let providerUserId = null;
   let yaExistia = false;
   const existente = await buscarUsuarioPorCorreo(admin, correo);
+  if (existente && existente.user_metadata?.rol !== "proveedor") {
+    return NextResponse.json(
+      { error: "Ese correo ya pertenece a una cuenta existente en el sistema" },
+      { status: 409 }
+    );
+  }
   if (existente) {
     yaExistia = true;
     providerUserId = existente.id;

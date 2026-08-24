@@ -76,6 +76,12 @@ export async function POST(req) {
     }
   } else {
     const existente = await buscarUsuarioPorCorreo(admin, correo);
+    if (existente && existente.user_metadata?.rol !== "proveedor") {
+      return NextResponse.json(
+        { error: "Ese correo pertenece a una cuenta existente en el sistema" },
+        { status: 409 }
+      );
+    }
     let uid = null;
     if (existente) {
       uid = existente.id;
