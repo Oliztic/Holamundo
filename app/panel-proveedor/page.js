@@ -3,77 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../lib/supabase/client";
+import { CATS_UI as CATS, CATALOG_KEYS, DOC_MAXDAYS } from "./catalogo-ui";
 
 const FONT_BODY = "var(--font-inter), sans-serif";
 const FONT_HEAD = "var(--font-manrope), sans-serif";
-
-// ---------------------------------------------------------------------
-// Catalogo de documentos del expediente (estatico)
-// ---------------------------------------------------------------------
-const CATS = [
-  {
-    id: "legal",
-    num: 1,
-    title: "Documentos legales y de identificación",
-    short: "Legales e identificación",
-    sub: "Existencia legal de la empresa y facultades del representante",
-    iconBg: "oklch(95% 0.03 264)",
-    iconFg: "oklch(45% 0.18 264)",
-    docs: [
-      { key: "camara", name: "Certificado de Existencia y Representación Legal", note: "Cámara de Comercio · expedición no mayor a 30–60 días. Verifica representante legal y facultades de firma.", tag: "Obligatorio", date: true, maxDays: 60 },
-      { key: "rut", name: "RUT / Tax ID", note: "Actualizado. Define régimen tributario y actividad económica (código CIIU).", tag: "Obligatorio" },
-      { key: "cedula", name: "Cédula de ciudadanía o pasaporte", note: "Documento de identidad del representante legal, ambas caras legibles.", tag: "Obligatorio" },
-      { key: "accionaria", name: "Certificación de composición accionaria", note: "Firmada por contador o revisor fiscal. Identifica beneficiarios finales para control de LA/FT.", tag: "Obligatorio" },
-    ],
-  },
-  {
-    id: "fin",
-    num: 2,
-    title: "Cumplimiento financiero y bancario",
-    short: "Financiero y bancario",
-    sub: "Liquidez de la empresa y configuración de la cuenta de pagos",
-    iconBg: "oklch(95% 0.03 300)",
-    iconFg: "oklch(48% 0.16 300)",
-    docs: [
-      { key: "banco", name: "Certificación bancaria", note: "Expedida por el banco con no más de 30 días. Inscribe la cuenta en la pasarela de pagos.", tag: "Obligatorio", date: true, maxDays: 30 },
-      { key: "ef", name: "Estados financieros auditados", note: "Balance general y estado de resultados del último año fiscal, con notas explicativas.", tag: "Obligatorio" },
-      { key: "tp", name: "Tarjeta profesional y cédula del contador", note: "Del contador y/o revisor fiscal que firma los estados financieros.", tag: "Obligatorio" },
-    ],
-  },
-  {
-    id: "laft",
-    num: 3,
-    title: "Anti-lavado de activos y anticorrupción",
-    short: "SAGRILAFT / LA-FT",
-    sub: "Exigido a proveedores de riesgo medio y alto (SAGRILAFT · PTEE)",
-    iconBg: "oklch(96% 0.04 75)",
-    iconFg: "oklch(52% 0.14 60)",
-    docs: [
-      { key: "origen", name: "Formulario de vinculación y declaración de origen de fondos", note: "Formato firmado por el representante legal declarando la licitud de los recursos.", tag: "Obligatorio" },
-      { key: "sagrilaft", name: "Certificación SAGRILAFT / PTEE", note: "Solo para empresas obligadas a tener sistema de autocontrol y gestión del riesgo LA/FT.", tag: "Condicional" },
-      { key: "antecedentes", name: "Certificados de antecedentes", note: "Judiciales, fiscales (Contraloría) y disciplinarios (Procuraduría), de la empresa y del representante legal.", tag: "Obligatorio", date: true, maxDays: 30 },
-    ],
-  },
-  {
-    id: "sst",
-    num: 4,
-    title: "Seguridad y Salud en el Trabajo",
-    short: "SST / contratistas",
-    sub: "Requerido cuando el proveedor envía personal a planta",
-    iconBg: "oklch(94% 0.05 170)",
-    iconFg: "oklch(45% 0.13 170)",
-    conditional: "personnel",
-    docs: [
-      { key: "parafiscales", name: "Certificado de aportes a seguridad social y parafiscales", note: "Firmado por revisor fiscal o representante legal: salud, pensión y ARL al día.", tag: "Obligatorio", date: true, maxDays: 30 },
-      { key: "sgsst", name: "Evaluación del SG-SST", note: "Certificación del porcentaje de avance en estándares mínimos (Resolución 0312).", tag: "Obligatorio" },
-      { key: "rce", name: "Póliza de Responsabilidad Civil Extracontractual", note: "Con amparo de predios, labores y operaciones para accidentes dentro de la planta.", tag: "Obligatorio", date: true, maxDays: 365 },
-    ],
-  },
-];
-
-const CATALOG_KEYS = new Set(CATS.flatMap((c) => c.docs.map((d) => d.key)));
-const DOC_MAXDAYS = {};
-CATS.forEach((c) => c.docs.forEach((d) => { if (d.date) DOC_MAXDAYS[d.key] = d.maxDays; }));
 
 const TAGS = {
   Obligatorio: { bg: "oklch(95% 0.03 264)", fg: "oklch(45% 0.18 264)" },

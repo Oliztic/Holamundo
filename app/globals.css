@@ -2152,6 +2152,10 @@ h3 {
   background: oklch(94% 0.04 150);
   color: oklch(40% 0.12 150);
 }
+.pv-estado.rev {
+  background: oklch(95% 0.05 250);
+  color: oklch(45% 0.15 264);
+}
 .pv-ver {
   border: 1px solid var(--border);
   background: #fff;
@@ -2227,6 +2231,160 @@ h3 {
   font-size: 12px;
   color: var(--muted-2);
   margin-bottom: 2px;
+}
+/* --- Detalle del expediente del proveedor --- */
+.exp-detalle {
+  max-width: 860px;
+}
+.exp-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 14px;
+}
+.exp-cabecera h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-strong);
+  margin: 0 0 6px;
+}
+.exp-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted-2);
+}
+.exp-progreso {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.exp-pct {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--blue);
+}
+.exp-progreso-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+.exp-progreso-info > span {
+  font-size: 12px;
+  color: var(--muted-2);
+}
+.exp-bar {
+  height: 7px;
+  border-radius: 4px;
+  background: var(--bg-alt);
+  overflow: hidden;
+}
+.exp-bar > div {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--blue);
+  transition: width 400ms ease;
+}
+.exp-enviado {
+  background: oklch(95% 0.04 150);
+  color: oklch(40% 0.12 150);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.exp-cargando {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 12px 0;
+}
+.exp-cat {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+.exp-cat-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.exp-cat-num {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background: oklch(95% 0.03 264);
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.exp-cat-titulo {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.exp-cat-titulo strong {
+  font-size: 15px;
+  color: var(--ink-strong);
+}
+.exp-cat-titulo span {
+  font-size: 12.5px;
+  color: var(--muted-2);
+}
+.exp-docs {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.exp-doc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-2);
+  border-radius: 4px;
+}
+.exp-doc-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.exp-doc-nombre {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-strong);
+}
+.exp-doc-file {
+  font-size: 12px;
+  color: var(--muted-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.exp-noaplica {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--muted);
 }
 .panel-placeholder {
   background: #fff;

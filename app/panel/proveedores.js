@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buildResumen } from "../../lib/expediente";
 
 const COLS = [
   { key: "nit", label: "NIT" },
@@ -154,7 +155,7 @@ function Listado({ supabase, onVer }) {
     (async () => {
       const { data } = await supabase
         .from("proveedores")
-        .select("id, nit, nombre, correo, estado, created_at");
+        .select("id, nit, nombre, correo, estado, created_at, user_id");
       setRows(data || []);
       setLoading(false);
     })();
@@ -256,24 +257,112 @@ function Listado({ supabase, onVer }) {
   );
 }
 
+const EST_META = {
+  pendiente: { label: "Pendiente", cls: "pend" },
+  en_revision: { label: "En revisión", cls: "rev" },
+  validado: { label: "Validado", cls: "ok" },
+};
+
 function Detalle({ proveedor, onVolver }) {
   const p = proveedor || {};
-  const fecha = p.created_at
-    ? new Date(p.created_at).toLocaleString("es-CO")
-    : "—";
+  const fecha = p.created_at ? new Date(p.created_at).toLocaleString("es-CO") : "—";
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [resumen, setResumen] = useState(null);
+  const [info, setInfo] = useState({ personnel: true, enviado: false });
+
+  useEffect(() => {
+    (async () => {
+      if (!p.user_id) { setError("Este proveedor aún no tiene cuenta de acceso."); setLoading(false); return; }
+      try {
+        const res = await fetch("/api/proveedores/expediente", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ proveedorUserId: p.user_id }),
+        });
+        const json = await res.json();
+        if (!res.ok) { setError(json.error || "No se pudo cargar el expediente."); }
+        else {
+          setInfo({ personnel: json.personnel, enviado: json.enviado });
+          setResumen(buildResumen(json.docs, json.personnel));
+        }
+      } catch {
+        setError("Error de red.");
+      }
+      setLoading(false);
+    })();
+  }, [p.user_id]);
+
+  const fmtFecha = (v) => (v ? new Date(v).toLocaleDateString("es-CO") : null);
+
   return (
-    <div className="pv-detalle">
-      <button className="pv-volver" onClick={onVolver}>
-        ← Volver al listado
-      </button>
-      <h3>{p.nombre || "Proveedor"}</h3>
-      <div className="pv-detalle-grid">
-        <div><span>NIT</span>{p.nit || "—"}</div>
-        <div><span>Nombre Empresa</span>{p.nombre || "—"}</div>
-        <div><span>Correo Corporativo</span>{p.correo || "—"}</div>
-        <div><span>Estado</span>{p.estado || "—"}</div>
-        <div><span>Fecha de Invitación</span>{fecha}</div>
+    <div className="exp-detalle">
+      <button className="pv-volver" onClick={onVolver}>← Volver al listado</button>
+
+      <div className="exp-cabecera">
+        <div>
+          <h3>{p.nombre || "Proveedor"}</h3>
+          <div className="exp-meta">
+            <span>NIT {p.nit || "—"}</span>
+            <span>{p.correo || "—"}</span>
+            <span>Invitado {fecha}</span>
+          </div>
+        </div>
+        {resumen && (
+          <div className="exp-progreso">
+            <div className="exp-pct">{resumen.pct}%</div>
+            <div className="exp-progreso-info">
+              <div className="exp-bar"><div style={{ width: resumen.pct + "%" }} /></div>
+              <span>{resumen.uploaded}/{resumen.total} cargados · {resumen.valid} validados</span>
+            </div>
+          </div>
+        )}
       </div>
+
+      {info.enviado && (
+        <div className="exp-enviado">El proveedor marcó su expediente como enviado para revisión.</div>
+      )}
+
+      {loading && <div className="exp-cargando">Cargando expediente…</div>}
+      {error && <div className="pv-msg error">{error}</div>}
+
+      {resumen && resumen.cats.map((cat) => (
+        <div key={cat.id} className="exp-cat">
+          <div className="exp-cat-head">
+            <span className="exp-cat-num">{cat.num}</span>
+            <div className="exp-cat-titulo">
+              <strong>{cat.short}</strong>
+              <span>{cat.sub}</span>
+            </div>
+            <span className={`pv-estado ${!cat.applies ? "pend" : cat.done === cat.count ? "ok" : "pend"}`}>
+              {cat.applies ? `${cat.done}/${cat.count}` : "No aplica"}
+            </span>
+          </div>
+          {cat.applies ? (
+            <div className="exp-docs">
+              {cat.docs.map((d) => {
+                const est = EST_META[d.estado] || EST_META.pendiente;
+                return (
+                  <div key={d.key} className="exp-doc">
+                    <div className="exp-doc-info">
+                      <span className="exp-doc-nombre">{d.name}</span>
+                      {d.fileName && (
+                        <span className="exp-doc-file">
+                          {d.fileName}{fmtFecha(d.fecha) ? ` · exp. ${fmtFecha(d.fecha)}` : ""}
+                        </span>
+                      )}
+                    </div>
+                    <span className={`pv-estado ${est.cls}`}>{est.label}</span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="exp-noaplica">No aplica: el proveedor indicó que no envía personal a las instalaciones.</div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
