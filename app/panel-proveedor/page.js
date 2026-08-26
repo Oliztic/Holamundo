@@ -407,7 +407,7 @@ export default function PanelProveedorPage() {
 
         {/* Contenido */}
         <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-          <div style={{ maxWidth: 940, margin: "0 auto", padding: "40px 40px 0" }}>
+          <div style={{ maxWidth: 1000, margin: 0, padding: "40px 40px 0" }}>
             {view === "config" && (
               <Placeholder title="Configuración" subtitle="Ajustes de la cuenta del proveedor y preferencias de notificación." />
             )}
